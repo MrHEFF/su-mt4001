@@ -1,0 +1,198 @@
+---
+title: "Laboration 1"
+author: "Sebastijan Babic"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    fig_caption: yes
+---
+
+# Sammanfattning
+I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
+på detaljer.
+
+
+## Följande ska kanske inte vara med? 
+```{r, fig.cap="4 olika plot som visar samma data: träddiagram, histogram lådagram, normalfördelningsplot."}
+x <- c(174.6, 173.2, 189.6, 167.7, 179.2, 179.6, 170.5, 168.5, 185.3, 164.1, 178.4)
+
+mean(x) # medelvärdet
+var(x) # variansen
+sd(x) # standardavvikelse
+summary(x) # minimum
+
+total_par <- par(mfrow = c(3,2))
+tree_diagram <- stem(x)
+histogram <- hist(x)
+boxplot <- boxplot(x)
+normal_plot <- qqnorm(x)
+qqline(x)
+
+hist(x, breaks = seq(from = 162, to = 192, by = 5))
+hist(x, breaks = seq(from = 162, to = 192, by = 2))
+
+par(total_par)
+```
+
+
+
+
+
+
+# Uppgift 1
+1. Om en exponentialfördelad slumpvariabel $X$ har väntevärde $E[X] = a$, vad är då dess standardavvikelse $\sigma$?
+Dess standardavvikelse är då 
+\[
+\sigma = \sqrt{V[X]} = \sqrt{\frac{1}{\beta^2}} = \frac{1}{\beta}
+\]
+
+2. Den stokatiska variabeln $X$ är likformigt fördelad med väntevärde $E[X] = a$. Vad ska fördelningens övre och
+undre gränser vara, uttryckt i a, för att standardavvikelsen ska bli lika stor som väntevärdet? 
+
+Ledning:
+Om $X \sim U[\alpha, \beta]$ så gäller $V[X] = (\beta - \alpha)^2/12$
+
+Vet att 
+\[
+\frac{\alpha + \beta}{2} = a = E[X] = \sigma = \sqrt{(\beta - \alpha)^2/12}
+\]
+
+så löser för $a$ och får att $\beta - \alpha = 2\sqrt{3}a$ och $\alpha + \beta = 2a$ som i sin tur ger en ekvationsystem 
+
+\begin{align*}
+    \begin{cases}
+        \alpha + \beta = 2a  \qquad &(1) \\
+        \beta - \alpha = 2\sqrt{3}a \qquad &(2)
+    \end{cases}
+\end{align*}
+som vid addition av $(1)$ till $(2)$ ger $\beta = a + \sqrt{3}a$ och subtraktion av dem två ekvationer ger eller insättning av nu kända $\beta$ ger $\alpha = a + \sqrt{3}a$. Alltså måste vi har att $X \sim U[a + \sqrt{3}a, a + \sqrt{3}a]$ eller med andra ord endast en punkt tas med i fördelningens gränser/parametrar. 
+
+
+
+
+
+
+
+# Uppgift 2 - Kommer data från en normalfördelning?
+För att besvara om en okänd fördelning kan vara en normalfördelning använder vi oss av ofta approximationer som sedan undersöks grafiskt (åtminstone här). Vi ska också svara hur stort $n$ behöver vara, dvs antalet observationer för att få en rimlig approximation. 
+
+Följande fördelningar har allihopa väntevärde och standardavvikelse $a$ där $a$ är dem två sista siffrorna i vårat personnummer, `13`. 
+
+1. Vilken är det minsta stickprovsstorleken som behövs för att den fördelning ni simulerar från skall
+avslöja sig som normal eller icke-normal?
+
+2. Vilken grafisk metod anser ni är mest effektiv för att avgöra om ett stickprov är normalfördelat eller
+inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott)
+
+
+## Uppgift 2.1
+```{r}
+set.seed(20040911)
+
+x1 <- rnorm(10, 12, 12)
+
+hist(x1, prob = TRUE)
+x <- seq(from = min(x1), to = max(x1), length.out = 100) # tag minsta x:-10 och största x:25 för linjens intervall
+# kan göra manuellt och sätta från -10 till 25 men detta gör det enklare om man vill på något sätt förändra
+# stickproven
+lines(x, dnorm(x, 12, 12))
+```
+
+
+```{r}
+boxplot(x1)
+```
+
+```{r}
+qqnorm(x1)
+qqline(x1)
+```
+
+```{r}
+# definierar 8 stickprov som x1,x2,...,x8 med en normalfördelning
+
+set.seed(19690420)
+x1 <- rnorm(10, 12, 12) # kommer att bli samma stickprov som ovan då vi har samma seed
+x2 <- rnorm(10, 12, 12) # detta blir ett stickprov annorlunda från x1, likaså de nedan
+x3 <- rnorm(10, 12, 12)
+x4 <- rnorm(10, 12, 12)
+x5 <- rnorm(10, 12, 12)
+x6 <- rnorm(10, 12, 12)
+x7 <- rnorm(10, 12, 12)
+x8 <- rnorm(10, 12, 12)
+```
+
+```{r, fig.cap="8 lådagram som visar 8 olika stickprov och deras utseende."}
+boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
+```
+
+```{r, fig.cap="8 histogram som visar 8 olika stickprov från innan och deras utseende"}
+old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
+hist(x1)
+hist(x2)
+hist(x3)
+hist(x4)
+hist(x5)
+hist(x6)
+hist(x7)
+hist(x8)
+
+par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
+```
+
+## Uppgift 2.2 - Likformigt fördelade data
+För simulering av likformigt fördelade stickprov används i R-funktionen runif(n, min, max), där n anger
+stickprovsstorleken, min och max anger undre respektive övre gräns i det intervall som fördelningen är
+definierad för. Lösningen på Uppgift 1 ger er intervallgränserna för det värde på a som ni använder. Använd
+funktionen runif för att simulera fem oberoende stickprov u1, u2, osv av storleken 10 och jämför dem
+grafiskt; dels med varandra och dels med de normalfördelade stickproven ovan. Rita exempelvis upp fem
+normalfördelade och fem likformigt fördelade stickprov i samma plot.
+När ni simulerar de fem oberoende stickproven, använd först funktionen set.seed på samma sätt som
+för de normalfördelade stickproven ovan, d.v.s. använd set.seed med ert födelsedatum en gång ovanför
+definitionerna av u1, u2 etc, i samma stycke kod. Upprepa er analys med stickprovsstorlekarna n = 20,
+n = 100 och ytterligare något värde på n som ni väljer själva. Besvara sedan frågorna som tidigare stälts.
+
+## Uppgift 2.3 - Exponentialfördelade data
+Genomför samma jämförelse även för exponentialfördelade stickprov med hjälp av funktionen rexp(n, r),
+där n är stickprovsstorleken och r är intensiteten (1 genom väntevärdet) för exponentialfördelningen. Hitta
+på lämpliga namn för dessa stickprov och se till att använda set.seed på samma sätt som ovan. Öka er
+stickprovsstorlek succesivt och besvara frågorna som tidigare ställts.
+
+
+
+
+
+
+
+# Uppgift 3 - Explorativ dataanalys
+```{r, fig.cap=""}
+data <- read.csv("olvinsprit.csv", header = TRUE) # läs filen
+
+land <- data$Land
+beer <- data$beer
+vin <- data$vin
+sprit <- data$sprit
+
+
+plot(beer, vin) # lägg till titlarna här
+text(beer, vin, land)
+```
+
+
+
+
+Dessa frågor ska besvaras i löpande text: 
+
+1. Vilka alkoholtyper i olvinsprit.csv kan anses komma från en normalfördelning?
+2. Hur ligger Sverige till i förhållande till andra länder inom de olika alkoholtyperna? Är Sverige extremt
+åt något håll?
+3. Vilka länder kan anses extrema? Åt vilket håll är de extrema?
+4. Finns det gemensamma drag hos de extrema länderna?
+5. Medför hög konsumtion av en typ av alkohol en högre eller lägre konsumtion av de andra typerna?
+Påverkar de varandra alls?
+5
+6. Sammanfatta era slutsatser om alkoholkonsumtionen i OECD-länderna.
+
+
+
+
