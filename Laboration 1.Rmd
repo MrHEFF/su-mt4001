@@ -12,6 +12,9 @@ I detta inledande stycke ska du förklara vad labben går ut på, utan att gå i
 på detaljer.
 
 
+Hej detta är sammanfattningen
+
+
 ## Följande ska kanske inte vara med? 
 ```{r, fig.cap="4 olika plot som visar samma data: träddiagram, histogram lådagram, normalfördelningsplot."}
 x <- c(174.6, 173.2, 189.6, 167.7, 179.2, 179.6, 170.5, 168.5, 185.3, 164.1, 178.4)
@@ -192,7 +195,6 @@ Dessa frågor ska besvaras i löpande text:
 Påverkar de varandra alls?
 5
 6. Sammanfatta era slutsatser om alkoholkonsumtionen i OECD-länderna.
-
 
 
 
