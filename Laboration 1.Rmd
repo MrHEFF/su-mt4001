@@ -1,6 +1,6 @@
 ---
 title: "Laboration 1"
-author: "Sebastijan Babic"
+author: "Sebastijan Babic, Daniel Eklund"
 date: "`r Sys.Date()`"
 output: 
   html_document:
@@ -10,9 +10,6 @@ output:
 # Sammanfattning
 I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
 på detaljer.
-
-
-Hej detta är sammanfattningenl ajsldlajsdaslkd 
 
 
 ## Följande ska kanske inte vara med? 
@@ -193,7 +190,6 @@ Dessa frågor ska besvaras i löpande text:
 4. Finns det gemensamma drag hos de extrema länderna?
 5. Medför hög konsumtion av en typ av alkohol en högre eller lägre konsumtion av de andra typerna?
 Påverkar de varandra alls?
-5
 6. Sammanfatta era slutsatser om alkoholkonsumtionen i OECD-länderna.
 
 
