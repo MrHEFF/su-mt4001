@@ -1,6 +1,6 @@
 ---
 title: "Laboration 1"
-author: "Sebastijan Babic, Daniel Eklund"
+author: "Sebastijan Babic, Daniel Svedlund"
 date: "`r Sys.Date()`"
 output: 
   html_document:
