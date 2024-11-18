@@ -84,7 +84,7 @@ avslöja sig som normal eller icke-normal?
 inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott)
 
 
-## Uppgift 2.1
+## Uppgift 2.1 # Normalfördelade data
 ```{r}
 set.seed(20040911)
 
@@ -110,7 +110,7 @@ qqline(x1)
 ```{r}
 # definierar 8 stickprov som x1,x2,...,x8 med en normalfördelning
 
-set.seed(19690420)
+set.seed(20040911)
 x1 <- rnorm(10, 12, 12) # kommer att bli samma stickprov som ovan då vi har samma seed
 x2 <- rnorm(10, 12, 12) # detta blir ett stickprov annorlunda från x1, likaså de nedan
 x3 <- rnorm(10, 12, 12)
@@ -136,26 +136,178 @@ hist(x6)
 hist(x7)
 hist(x8)
 
+
 par(old_par) # säg åt R att sluta förvänta sig fler plottar till samma fönster
 ```
+Eftersom n är ganska litet hos alla plottar här så är det lite svårt att avgöra om vi faktiskt har en normalfördelning eller inte hos stickproven. Om vi skulle öka n skulle vi avgöra deras fördelning enklast med histogramen och/eller normalfördelnings-plotten. 
+
 
 ## Uppgift 2.2 - Likformigt fördelade data
-För simulering av likformigt fördelade stickprov används i R-funktionen runif(n, min, max), där n anger
-stickprovsstorleken, min och max anger undre respektive övre gräns i det intervall som fördelningen är
-definierad för. Lösningen på Uppgift 1 ger er intervallgränserna för det värde på a som ni använder. Använd
-funktionen runif för att simulera fem oberoende stickprov u1, u2, osv av storleken 10 och jämför dem
-grafiskt; dels med varandra och dels med de normalfördelade stickproven ovan. Rita exempelvis upp fem
-normalfördelade och fem likformigt fördelade stickprov i samma plot.
-När ni simulerar de fem oberoende stickproven, använd först funktionen set.seed på samma sätt som
-för de normalfördelade stickproven ovan, d.v.s. använd set.seed med ert födelsedatum en gång ovanför
-definitionerna av u1, u2 etc, i samma stycke kod. Upprepa er analys med stickprovsstorlekarna n = 20,
-n = 100 och ytterligare något värde på n som ni väljer själva. Besvara sedan frågorna som tidigare stälts.
+```{r, fig.cap="Histogram för olika stickprovsstorlek, 10,20,100,1000 från top till botten."}
+set.seed(20040911)
+
+# välj a såsom uppgift 1 kräver
+a <- 13
+
+# definiera gränser
+alpha <- a * (1 - sqrt(3))
+beta <- a * (1 + sqrt(3))
+
+# för olika stickprovsstorlekar
+ns <- c(10, 20, 100, 10000)
+
+# generera stickprov och plotta histogram
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  u1 <- runif(n, min = alpha, max = beta)
+  u2 <- runif(n, min = alpha, max = beta)
+  u3 <- runif(n, min = alpha, max = beta)
+  u4 <- runif(n, min = alpha, max = beta)
+  u5 <- runif(n, min = alpha, max = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  hist(u1, main = paste("u1, n =", n), xlab = "Värden", breaks = 10)
+  hist(u2, main = paste("u2, n =", n), xlab = "Värden", breaks = 10)
+  hist(u3, main = paste("u3, n =", n), xlab = "Värden", breaks = 10)
+  hist(u4, main = paste("u4, n =", n), xlab = "Värden", breaks = 10)
+  hist(u5, main = paste("u5, n =", n), xlab = "Värden", breaks = 10)
+  
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+
+```{r, fig.cap="Boxplottar för likformigt oberoende stickprov."}
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  u1 <- runif(n, min = alpha, max = beta)
+  u2 <- runif(n, min = alpha, max = beta)
+  u3 <- runif(n, min = alpha, max = beta)
+  u4 <- runif(n, min = alpha, max = beta)
+  u5 <- runif(n, min = alpha, max = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  boxplot(u1, main = paste("u1, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(u2, main = paste("u2, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(u3, main = paste("u3, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(u4, main = paste("u4, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(u5, main = paste("u5, n =", n), xlab = "Värden", breaks = 10)
+  
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+
+```{r, fig.cap="Normalfördelningsplottar för likformigt oberoende stickprov."}
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  u1 <- runif(n, min = alpha, max = beta)
+  u2 <- runif(n, min = alpha, max = beta)
+  u3 <- runif(n, min = alpha, max = beta)
+  u4 <- runif(n, min = alpha, max = beta)
+  u5 <- runif(n, min = alpha, max = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  qqnorm(u1, main = paste("u1, n =", n), xlab = "Värden")
+  qqline(u1)
+  qqnorm(u2, main = paste("u2, n =", n), xlab = "Värden")
+  qqline(u2)
+  qqnorm(u3, main = paste("u3, n =", n), xlab = "Värden")
+  qqline(u3)
+  qqnorm(u4, main = paste("u4, n =", n), xlab = "Värden")
+  qqline(u4)
+  qqnorm(u5, main = paste("u5, n =", n), xlab = "Värden")
+  qqline(u5)
+    
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+Vi kan med hyfsat säkerhet säga att då n = 100 ser vi hos QQ-plottarna att stickproven inte följer en normalfördelning då stickproven inte följer QQ-linjen då n blir stor. 
+
+Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickproven följer en normalfördelning eller inte, den visar dessutom motsatsen till vad dem andra kanske gör. Boxplot visar att vi kanske har en normalfördelning ty medianen är ungefär lika med väntevärdet som är något vi kan förvänta oss hos en normalfördelning pga symmetri. Histogramen visar en någorlunda normalfördelning men inte riktigt helt, vi hoppar direkt från ungefär 750 till 1500 på frekvens-axeln. Det tyder på att vi inte har en normalfördelning eftersom vi skulle följa en mycket mer steg-för-steg ökning på denna axel och därmed få något mer likt en normalfördelning.  
+
+
 
 ## Uppgift 2.3 - Exponentialfördelade data
-Genomför samma jämförelse även för exponentialfördelade stickprov med hjälp av funktionen rexp(n, r),
-där n är stickprovsstorleken och r är intensiteten (1 genom väntevärdet) för exponentialfördelningen. Hitta
-på lämpliga namn för dessa stickprov och se till att använda set.seed på samma sätt som ovan. Öka er
-stickprovsstorlek succesivt och besvara frågorna som tidigare ställts.
+```{r, fig.cap="Histogram för exponentialfördelade stickprov där n ökar från 10 -> 20 -> 100 -> 10000."}
+set.seed(20040911)
+
+# välj a såsom uppgift 1 kräver
+a <- 13
+
+# definiera gränser
+beta <- 1/a
+
+# för olika stickprovsstorlekar
+ns <- c(10, 20, 100, 10000)
+
+# generera stickprov och plotta histogram
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  e1 <- rexp(n, r = beta)
+  e2 <- rexp(n, r = beta)
+  e3 <- rexp(n, r = beta)
+  e4 <- rexp(n, r = beta)
+  e5 <- rexp(n, r = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  hist(e1, main = paste("e1, n =", n), xlab = "Värden", breaks = 10)
+  hist(e2, main = paste("e2, n =", n), xlab = "Värden", breaks = 10)
+  hist(e3, main = paste("e3, n =", n), xlab = "Värden", breaks = 10)
+  hist(e4, main = paste("e4, n =", n), xlab = "Värden", breaks = 10)
+  hist(e5, main = paste("e5, n =", n), xlab = "Värden", breaks = 10)
+  
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+
+```{r, fig.cap="Boxplottar för exponentialfördelade oberoende stickprov."}
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  e1 <- rexp(n, r = beta)
+  e2 <- rexp(n, r = beta)
+  e3 <- rexp(n, r = beta)
+  e4 <- rexp(n, r = beta)
+  e5 <- rexp(n, r = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  boxplot(e1, main = paste("e1, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(e2, main = paste("e2, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(e3, main = paste("e3, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(e4, main = paste("e4, n =", n), xlab = "Värden", breaks = 10)
+  boxplot(e5, main = paste("e5, n =", n), xlab = "Värden", breaks = 10)
+  
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+
+```{r, fig.cap="Normalfördelningsplottar för exponentialfördelade oberoende stickprov."}
+for (n in ns) {
+  # generera 5 oberoende stickprov
+  e1 <- rexp(n, r = beta)
+  e2 <- rexp(n, r = beta)
+  e3 <- rexp(n, r = beta)
+  e4 <- rexp(n, r = beta)
+  e5 <- rexp(n, r = beta)
+  
+  # plotta histogram
+  par(mfrow = c(1, 5))
+  qqnorm(e1, main = paste("e1, n =", n), xlab = "Värden")
+  qqnorm(e2, main = paste("e2, n =", n), xlab = "Värden")
+  qqnorm(e3, main = paste("e3, n =", n), xlab = "Värden")
+  qqnorm(e4, main = paste("e4, n =", n), xlab = "Värden")
+  qqnorm(e5, main = paste("e5, n =", n), xlab = "Värden")
+  
+  cat("Plottar för n =", n, "\n") # print after every plot
+}
+```
+
+Redan när n = 20 kan vi se hos histogramen ganska tydligt att det inte är en normalfördelning. 
+
+Histogramen verkar mest effektiv här då vi kan genom den se att stickproven inte följer en normalfördelning tidigast, n = 20 medan dem andra vi behöver n = 100 för att med hyfsat säkerthet säga detsamma. 
 
 
 
