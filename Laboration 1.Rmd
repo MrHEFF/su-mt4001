@@ -65,8 +65,7 @@ så löser för $a$ och får att $\beta - \alpha = 2\sqrt{3}a$ och $\alpha + \be
         \beta - \alpha = 2\sqrt{3}a \qquad &(2)
     \end{cases}
 \end{align*}
-som vid addition av $(1)$ till $(2)$ ger $\beta = a + \sqrt{3}a$ och subtraktion av dem två ekvationer ger eller insättning av nu kända $\beta$ ger $\alpha = a + \sqrt{3}a$. Alltså måste vi har att $X \sim U[a + \sqrt{3}a, a + \sqrt{3}a]$ eller med andra ord endast en punkt tas med i fördelningens gränser/parametrar. 
-
+som vid addition av $(1)$ till $(2)$ ger $\beta = a + \sqrt{3}a$ och subtraktion av dem två ekvationer ger eller insättning av nu kända $\beta$ ger $\alpha = a - \sqrt{3}a$. Alltså måste vi har att $X \sim U[a - \sqrt{3}a, a + \sqrt{3}a]$. 
 
 
 
