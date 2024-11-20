@@ -21,11 +21,13 @@ avslöja sig som normal eller icke-normal?
 inte? Motivera med de olika grafiska metoderna (boxplot, histogram, normalfördelningsplott)
 
 
-## Uppgift 2.1 # Normalfördelade data
-```{r}
+## Uppgift 2.1 Normalfördelade data
+```{r, fig.cap="Histogram över en stickprov x1 av storlek n = 100."}
 set.seed(20040911)
 
-x1 <- rnorm(10, 12, 12)
+n <- 100
+
+x1 <- rnorm(n, 12, 12)
 
 hist(x1, prob = TRUE)
 x <- seq(from = min(x1), to = max(x1), length.out = 100) # tag minsta x:-10 och största x:25 för linjens intervall
@@ -35,11 +37,11 @@ lines(x, dnorm(x, 12, 12))
 ```
 
 
-```{r}
+```{r, fig.cap="Lådagram över en stickprov x1 av storlek n = 100."}
 boxplot(x1)
 ```
 
-```{r}
+```{r, fig.cap="Normalfördelningsplot över en stickprov x1 av storlek n = 100."}
 qqnorm(x1)
 qqline(x1)
 ```
@@ -48,21 +50,21 @@ qqline(x1)
 # definierar 8 stickprov som x1,x2,...,x8 med en normalfördelning
 
 set.seed(20040911)
-x1 <- rnorm(10, 12, 12) # kommer att bli samma stickprov som ovan då vi har samma seed
-x2 <- rnorm(10, 12, 12) # detta blir ett stickprov annorlunda från x1, likaså de nedan
-x3 <- rnorm(10, 12, 12)
-x4 <- rnorm(10, 12, 12)
-x5 <- rnorm(10, 12, 12)
-x6 <- rnorm(10, 12, 12)
-x7 <- rnorm(10, 12, 12)
-x8 <- rnorm(10, 12, 12)
+x1 <- rnorm(n, 12, 12) # kommer att bli samma stickprov som ovan då vi har samma seed
+x2 <- rnorm(n, 12, 12) # detta blir ett stickprov annorlunda från x1, likaså de nedan
+x3 <- rnorm(n, 12, 12)
+x4 <- rnorm(n, 12, 12)
+x5 <- rnorm(n, 12, 12)
+x6 <- rnorm(n, 12, 12)
+x7 <- rnorm(n, 12, 12)
+x8 <- rnorm(n, 12, 12)
 ```
 
-```{r, fig.cap="8 lådagram som visar 8 olika stickprov och deras utseende."}
+```{r, fig.cap="8 lådagram i en samma plot som visar 8 olika stickprov av storlek 10 och deras utseende."}
 boxplot(x1, x2, x3, x4, x5, x6, x7, x8)
 ```
 
-```{r, fig.cap="8 histogram som visar 8 olika stickprov från innan och deras utseende"}
+```{r, fig.cap="8 histogram i en och samma plot som visar 8 olika stickprov av storlek 10 från innan och deras utseende"}
 old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
 hist(x1)
 hist(x2)
@@ -74,16 +76,21 @@ hist(x7)
 hist(x8)
 par(old_par) 
 ```
-Eftersom n är ganska litet hos alla plottar här så är det lite svårt att avgöra om vi faktiskt har en normalfördelning eller inte hos stickproven. Om vi skulle öka n skulle vi avgöra deras fördelning enklast med histogramen och/eller normalfördelnings-plotten. 
+Då n = 100 kan man hyfsat enkelt avgöra fördelningen på x1,x2,...,x8 följer en normalfördelning eller inte. Däremot är det fortfarande svårt att avgöra fördelningen på normalfördelningsplotten. Lådagrammen och histogramen är ungefär lika effektiva för att avgöra detta, med det menas att vi behöver ungefär lika stor n på både för att med säkerhet kunna avgöra fördelningen men däremot kan lådagramen vara lite vilseledande som vi kan se i uppgift 2.2 så lådagrammen verkar vara effektivast här.
+
+
+
+
+
 
 
 ## Uppgift 2.2 - Likformigt fördelade data
-```{r, fig.cap="Histogram, lådagram och normalfördelningsplottar för 5 stickprovs u1,u2,u3,u4,u5 av storlek 10."}
+```{r, fig.cap="Histogram, lådagram och normalfördelningsplottar för 5 stickprov u1,u2,u3,u4,u5 av likformig fördelning av storlek 10 med gränserna 13 +/- 13sqrt(3)."}
 set.seed(20040911)
 
 # välj a från uppgift 1
 a <- 13
-n <- 10
+n <- 100
 
 # definiera gränser
 alpha <- a * (1 - sqrt(3))
@@ -98,11 +105,11 @@ u5 <- runif(n, min = alpha, max = beta)
 
 # plotta histogram
 old_par <- par(mfrow = c(1, 5))  # skapa layout för flera plots och repetera för alla 3 typer av plottar
-hist(u1, main = paste("u1, n =", n), xlab = "Värden", breaks = 5)
-hist(u2, main = paste("u2, n =", n), xlab = "Värden", breaks = 5)
-hist(u3, main = paste("u3, n =", n), xlab = "Värden", breaks = 5)
-hist(u4, main = paste("u4, n =", n), xlab = "Värden", breaks = 5)
-hist(u5, main = paste("u5, n =", n), xlab = "Värden", breaks = 5)
+hist(u1, main = paste("u1, n =", n), xlab = "Värden", breaks = 10)
+hist(u2, main = paste("u2, n =", n), xlab = "Värden", breaks = 10)
+hist(u3, main = paste("u3, n =", n), xlab = "Värden", breaks = 10)
+hist(u4, main = paste("u4, n =", n), xlab = "Värden", breaks = 10)
+hist(u5, main = paste("u5, n =", n), xlab = "Värden", breaks = 10)
 par(old_par)
 
 old_par <- par(mfrow = c(1, 5))
@@ -127,16 +134,9 @@ qqline(u5)
 par(old_par)  # återställ layout
 ```
 
-Vi kan med hyfsat säkerhet säga att då n = 100 ser vi hos QQ-plottarna att stickproven inte följer en normalfördelning då stickproven inte följer QQ-linjen då n blir stor. 
+Vi kan med hyfsat säkerhet säga att då n = 100 ser vi att stickproven absolut inte följer en normalfördelning. Däremot är det fortfarande svårt att avgöra om deras egentliga fördelning, histogrammen har ofta stora avvikelser från vad förväntas av en likformig fördelning (en konstant värde på y-axeln). Lådagrammen kan vara lite misledande då lådorna ser någorlunda ut som en normalfördelning men i verklighet inte är det. 
 
-Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickproven följer en normalfördelning eller inte, den visar dessutom motsatsen till vad dem andra kanske gör. Boxplot visar att vi kanske har en normalfördelning ty medianen är ungefär lika med väntevärdet som är något vi kan förvänta oss hos en normalfördelning pga symmetri. Histogramen visar en någorlunda normalfördelning men inte riktigt helt, vi hoppar direkt från ungefär 750 till 1500 på frekvens-axeln. Det tyder på att vi inte har en normalfördelning eftersom vi skulle följa en mycket mer steg-för-steg ökning på denna axel och därmed få något mer likt en normalfördelning.  
-
-
-
-
-
-
-
+Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickproven följer en normalfördelning eller inte, den visar dessutom motsatsen till vad dem andra kanske gör. Boxplot visar att vi kanske har en normalfördelning ty medianen är ungefär lika med väntevärdet som är något vi kan förvänta oss hos en normalfördelning. Histogramen visar en någorlunda normalfördelning men inte riktigt helt pga. dem avvikelser som nämndes tidigare, det tyder på att vi inte har en normalfördelning eftersom vi skulle följa en mycket mer steg-för-steg ökning på denna axel och därmed få något mer likt en normalfördelning.
 
 
 
@@ -149,14 +149,14 @@ Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickpro
 
 
 ## Uppgift 2.3 - Exponentialfördelade data
-```{r, fig.cap="Histogram för 5 exponentialfördelade stickprov där antalet observationer är 10"}
+```{r, fig.cap="Histogram för 5 exponentialfördelade stickprov där antalet observationer är 10 med parametern 1/13"}
 set.seed(20040911)
 
 # välj a såsom uppgift 1 kräver
 a <- 13
 n <- 10
 
-# definiera gränser
+# definiera parametern beta
 beta <- 1/a
 
 
@@ -204,9 +204,27 @@ qqline(e5)
 par(old_par)
 ```
 
-Redan när n = 10 kan vi se hos histogramen ganska tydligt att det inte är en normalfördelning. 
+Redan när n = 10 kan vi se hos lådagrammen ganska tydligt se att det inte är en normalförldening pga. dem låga medianer. Därmed kan vi nog säga att lådagrammen verkar mest effektiv här eftersom Q-Q plotten och histogrammen kräver ungefär n = 100 för att avgöra att stickproven inte följer en normalfördelning. 
 
-Histogramen verkar mest effektiv här då vi kan genom den se att stickproven inte följer en normalfördelning tidigast, n = 20 medan dem andra vi behöver n = 100 för att med hyfsat säkerthet säga detsamma. 
+
+## Sammanfattning
+För att pålitligt bedöma om data är normalfördelade krävs ofta större stickprovsstorlekar ($n \geq 100$) men det beror på vad för fördelning det är vi jobbar med.
+
+- Normalfördelade stickprov kräver n = 100 där histogrammen är mest effektiv. 
+- Likformigtfördelade stickprov kräver n = 100 där lådagrammen är mest effektiv.
+- Exponentialfördelade stickprov kräver n = 10 där lådagrammen verkar vara mest effektiv. 
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Uppgift 3: Explorativ dataanalys
 
