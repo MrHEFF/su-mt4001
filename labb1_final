@@ -3,8 +3,8 @@ title: "Laboration 1 - MT4001"
 author: "Daniel Svedlund, Sebastijan Babic"
 date: "2024-11-18"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 \renewcommand{\figurename}{Figur} 
 \renewcommand{\tablename}{Tabell}
@@ -83,7 +83,7 @@ Då n = 100 kan man hyfsat enkelt avgöra fördelningen på x1,x2,...,x8 följer
 
 
 
-
+\newpage
 ## Uppgift 2.2 - Likformigt fördelade data
 ```{r, fig.cap="Histogram, lådagram och normalfördelningsplottar för 5 stickprov u1,u2,u3,u4,u5 av likformig fördelning av storlek 10 med gränserna 13 +/- 13sqrt(3)."}
 set.seed(20040911)
@@ -147,7 +147,7 @@ Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickpro
 
 
 
-
+\newpage
 ## Uppgift 2.3 - Exponentialfördelade data
 ```{r, fig.cap="Histogram för 5 exponentialfördelade stickprov där antalet observationer är 10 med parametern 1/13"}
 set.seed(20040911)
@@ -226,6 +226,7 @@ För att pålitligt bedöma om data är normalfördelade krävs ofta större sti
 
 
 
+\newpage
 # Uppgift 3: Explorativ dataanalys
 
 Vi ska utforska csv-filen "olvinsprit.csv" som har 4 variabler "Land", "beer", "vin", och "sprit", där den genomsnittliga konsumtionen har mätts i 18 st OECD-länder.
