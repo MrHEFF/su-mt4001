@@ -9,6 +9,8 @@ output:
 \renewcommand{\figurename}{Figur} 
 \renewcommand{\tablename}{Tabell}
 
+\newpage
+
 # Sammanfattning
 I denna laboration använder vi oss av grafisk analys i form av histogram, lådagram, normalfördelningsplottar och stolpdiagram, vi har några stickprov som är normal,likformigt och exponential-fördelade och letar då efter det minsta antalet observationer som krävs för att visa att stickproven är normalfördelade eller inte. Detta talet n visar sig ofta vara så stor som 100 för att vi ska säkert kunna avgöra att fördelningen inte är normalfördelningen. Vilken plottyp för analys man använder sig av beror på stickproven och effektiviteten av dem plottyper hos dem olika analyser skiljer sig åt. 
 
@@ -16,11 +18,10 @@ Det undersöktes även data om den genomsnittliga konsumtionen av alkohol som m�
 
 Det undersöktes även hur Sverige ligger till i öl, vin- och spritkonsumtion bland dem 18 OECD-länder och ser att vi ligger under det genomsnittliga konsumtionen hos alla alkoholtyper. Irland toppar ölkonsumtionen, Italien vinkonsumtion och Japan spritkonsumtion. 
 
-Vi såg att de extrema länderna i öl och vinkonsumtion tenderar att endast ligga högt i det ena av dessa vilket. 
 
 
 
-
+\newpage
 
 
 # Uppgift 2 - Kommer data från en normalfördelning?
@@ -38,11 +39,14 @@ n <- 100
 x1 <- rnorm(n, 12, 12)
 
 hist(x1,
+     main = "Histogram x1",
      xlab = "Stickprovsvärden",
      ylab = "Sannolikhetstäthet",
      prob = TRUE)
-x <- seq(from = min(x1), to = max(x1), length.out = 100) # tag minsta x:-10 och största x:25 för linjens intervall
-# kan göra manuellt och sätta från -10 till 25 men detta gör det enklare om man vill på något sätt förändra
+x <- seq(from = min(x1), to = max(x1), length.out = 100) # tag minsta x:-10 
+# och största x:25 för linjens intervall
+# kan göra manuellt och sätta från -10 till 25 men detta gör 
+#det enklare om man vill på något sätt förändra
 # stickproven
 lines(x, dnorm(x, 12, 12))
 ```
@@ -50,12 +54,14 @@ lines(x, dnorm(x, 12, 12))
 
 ```{r, fig.cap="Lådagram över en stickprov x1 av storlek n = 100."}
 boxplot(x1,
+        main = "Lådagram x1",
         xlab = "Stickprov x1",
         ylab = "Värde")
 ```
 
 ```{r, fig.cap="Normalfördelningsplot över en stickprov x1 av storlek n = 100."}
 qqnorm(x1,
+       main = "Normalfördelningsplot x1",
        xlab = "Teoretiska kvantiler",
        ylab = "Observerade kvantiler")
 qqline(x1)
@@ -76,22 +82,24 @@ x8 <- rnorm(n, 12, 12)
 ```
 
 ```{r, fig.cap="8 lådagram i en samma plot som visar 8 olika stickprov av storlek 10."}
-boxplot(x1, x2, x3, x4, x5, x6, x7, x8, xlab = "Stickprov", ylab = "Värde")
+boxplot(x1, x2, x3, x4, x5, x6, x7, x8, xlab = "Stickprov", ylab = "Värde", main = "Lådagram x1,x2,x3,x4,x5,x6,x7,x8")
 ```
 
 ```{r, fig.cap="8 histogram i en och samma plot som visar 8 olika stickprov av storlek 10 från innan."}
 old_par <- par(mfrow = c(2, 4)) # 2 rader, 4 kolonner
-hist(x1)
-hist(x2)
-hist(x3)
-hist(x4)
-hist(x5)
-hist(x6)
-hist(x7)
-hist(x8)
+hist(x1, main = "Histogram x1", ylab = "Sannolikhetstäthet")
+hist(x2, main = "Histogram x2", ylab = "Sannolikhetstäthet")
+hist(x3, main = "Histogram x3", ylab = "Sannolikhetstäthet")
+hist(x4, main = "Histogram x4", ylab = "Sannolikhetstäthet")
+hist(x5, main = "Histogram x5", ylab = "Sannolikhetstäthet")
+hist(x6, main = "Histogram x6", ylab = "Sannolikhetstäthet")
+hist(x7, main = "Histogram x7", ylab = "Sannolikhetstäthet")
+hist(x8, main = "Histogram x8", ylab = "Sannolikhetstäthet")
 par(old_par) 
 ```
-Då n = 100 kan man hyfsat enkelt avgöra fördelningen på x1,x2,...,x8 följer en normalfördelning eller inte. Däremot är det fortfarande svårt att avgöra fördelningen på normalfördelningsplotten (figur 3). Lådagrammen (figur 2) och histogramen (figur 1) är ungefär lika effektiva för att avgöra detta, med det menas att vi behöver ungefär lika stor n på både för att med säkerhet kunna avgöra fördelningen men däremot kan lådagramen vara lite vilseledande som vi kan se i uppgift 2.2 så histogrammen verkar vara effektivast här.
+Då n = 100 kan man hyfsat enkelt avgöra fördelningen på x1,x2,...,x8 följer en normalfördelning eller inte på lådagrammen (figur 2) och histogrammen (figur 1). Däremot är det fortfarande svårt att avgöra om det är en normalfördelning eller inte på normalfördelningsplotten (figur 3).
+
+Lådagrammen (figur 2) och histogrammen (figur 1) är ungefär lika effektiva för att avgöra detta, med det menas att vi behöver ungefär lika stor n på både för att med säkerhet kunna avgöra fördelningen men däremot kan lådagramen vara lite vilseledande som vi kommer se i uppgift 2.2 så histogrammen (figur 1) verkar vara effektivast här då det krävs minst värde på n för att avgöra om normalfördelat eller inte jämfört med dem andra plottyper. 
 
 
 
@@ -140,22 +148,22 @@ par(old_par)
 
 # plotta normalfördelningsplot
 old_par <- par(mfrow = c(1, 5))
-qqnorm(u1, main = "Q-Q-plott för u1", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
+qqnorm(u1, main = "Q-Q-plot för u1", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
 qqline(u1)
-qqnorm(u2, main = "Q-Q-plott för u2", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
+qqnorm(u2, main = "Q-Q-plot för u2", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
 qqline(u2)
-qqnorm(u3, main = "Q-Q-plott för u3", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
+qqnorm(u3, main = "Q-Q-plot för u3", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
 qqline(u3)
-qqnorm(u4, main = "Q-Q-plott för u4", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
+qqnorm(u4, main = "Q-Q-plot för u4", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
 qqline(u4)
-qqnorm(u5, main = "Q-Q-plott för u5", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
+qqnorm(u5, main = "Q-Q-plot för u5", xlab = "Teoretiska kvantiler", ylab = "Observerade kvantiler")
 qqline(u5)
 par(old_par)  # återställ layout
 ```
 
-Vi kan med hyfsat säkerhet säga att då n = 100 ser vi att stickproven absolut inte följer en normalfördelning. Däremot är det fortfarande svårt att avgöra om deras egentliga fördelning, histogrammen (figur 6) har ofta stora avvikelser från vad förväntas av en likformig fördelning (en konstant värde på y-axeln). Lådagrammen kan vara lite misledande då lådorna ser någorlunda ut som en normalfördelning men stickprov av likformig fördelning har också medianen i sitt väntevärde. 
+Vi kan med hyfsat säkerhet säga att då n = 100 ser vi att stickproven absolut inte följer en normalfördelning. Däremot är det fortfarande svårt att avgöra om deras egentliga fördelning, histogrammen (figur 6) har ofta stora avvikelser från vad förväntas av en likformig fördelning (en konstant värde på y-axeln). Lådagrammen (figur 7) kan vara lite misledande då lådorna ser någorlunda ut som en normalfördelning men stickprov av likformig fördelning har också medianen i sitt väntevärde. 
 
-Normalfördelningsplotten verkar vara mest effektiv för att avgöra om stickproven följer en normalfördelning eller inte, den visar dessutom motsatsen till vad dem andra kanske gör. Boxplot visar att vi kanske har en normalfördelning ty medianen är ungefär lika med väntevärdet som är något vi kan förvänta oss hos en normalfördelning. Histogramen visar en någorlunda normalfördelning men inte riktigt helt pga. dem avvikelser som nämndes tidigare, det tyder på att vi inte har en normalfördelning. 
+Normalfördelningsplotten (figur 8) verkar vara mest effektiv för att avgöra om stickproven följer en normalfördelning eller inte, den visar dessutom motsatsen till vad dem andra kanske gör. Lådagrammen (figur 7) visar att vi kanske har en normalfördelning ty medianen är ungefär lika med väntevärdet som är något vi kan förvänta oss hos en normalfördelning. Histogrammen (figur 6) visar en någorlunda normalfördelning men inte riktigt helt pga. dem avvikelser som nämndes tidigare, det tyder på att vi inte har en normalfördelning. 
 
 
 
@@ -223,7 +231,7 @@ qqline(e5)
 par(old_par)
 ```
 
-Redan när n = 10 kan vi se hos lådagrammen ganska tydligt se att det inte är en normalförldening pga. dem låga medianer. Därmed kan vi nog säga att lådagrammen verkar mest effektiv här eftersom Q-Q plotten och histogrammen kräver ungefär n = 100 för att avgöra att stickproven inte följer en normalfördelning. 
+Redan när n = 10 kan vi se hos lådagrammen (figur 10) ganska tydligt se att det inte är en normalfördelning pga. dem låga medianer. Därmed kan vi nog säga att lådagrammen (figur 10) verkar mest effektiv här eftersom normalfördelningsplotten (figur 11) och histogrammen (figur 9) kräver ungefär n = 100 för att avgöra att stickproven inte följer en normalfördelning, dvs ett större värde på n för att med säkerhet se att i det här fallet inte är ett normalfördelning.  
 
 
 
@@ -254,7 +262,7 @@ sprit <- data$sprit
 
 Vi kan börja utforska om någon alkoholtyp kan anses vara normalfördelad och gör detta först genom att skapa histogram för vardera alkoholtyp där vi även ritar in kurvan för en normalfördelning med väntevärde = medelvärdet av alkoholtypen samt standardavvikelse = standardavvikelsen för alkoholtypen.
 
-Från figur *nr* ser ölkonsumtionen ut att kunna vara normalfördelad medan vin- och spritkonsumtionen mer liknar en exponentialfördelning.
+Från figur 12 ser ölkonsumtionen ut att kunna vara normalfördelad medan vin- och spritkonsumtionen mer liknar en exponentialfördelning.
 
 ```{r, fig.cap = "Data från öl, vin- och spritkonsumtion plottat med histogram och jämförd med den teoretiska normalfördelningen, representerad av kurvan."}
 
@@ -294,7 +302,7 @@ qqline(sprit)
 par(old_par)
 ```
 
-Vi kan fortsätta utforska om någon av vektorerna öl, vin eller sprit kommer från en normalfördelning genom att använda normalfördelningsplottar. Vi ser i figur *nr* att det är svårare att dra någon slutsats här men spritkonsumtionen avviker något mer än de andra från den räta linjen vilket även här talar för att den ej är normalfördelad.
+Vi kan fortsätta utforska om någon av vektorerna öl, vin eller sprit kommer från en normalfördelning genom att använda normalfördelningsplottar. Vi ser i figur 13 att det är svårare att dra någon slutsats här men spritkonsumtionen avviker något mer än de andra från den räta linjen vilket även här talar för att den ej är normalfördelad.
 
 För att jämföra alkoholkonsumtionen av öl, vin och sprit mellan länderna kan vi jämföra detta i 3 stolpdiagram, ett för respektive alkoholtyp.
 
@@ -328,11 +336,12 @@ abline(mean(sprit), 0)
 
 \newpage
 
-Vi ser att Sverige verkligen inte avviker i någon av öl, vin- och spritkonsumtion. Vi är landet lagom. 
+Vi ser från figurerna 14, 15 och 16 att Sverige verkligen inte avviker i någon av öl, vin- och spritkonsumtion.
 
-Från figur *nr* ser vi att Irland har överlägset högst ölkonsumtion medan figur visar att Italien har högst vinkonsumtion följt av Frankrike. I figur *nr* ser vi att högsta spritkonsumtionen sker i Japan, även där följt av Frankrike. Från stolpdiagrammen går det även att se att Tyskland är det enda landet som ligger över medel i samtliga alkoholtyper.
 
-Ett någorlunda gemensamt drag hos de extrema länderna i öl- och vinkonsumtion är att de tenderar att endast ligga högt i den ena av dessa. Detta kan klart ses i figur *nr* (första textplot) där de som ligger allra högst i antingen öl- eller vinkonsumtion ligger bland de lägsta i den andra. 
+Från figur 14 ser vi att Irland har överlägset högst ölkonsumtion medan figur 15 visar att Italien har högst vinkonsumtion följt av Frankrike. I figur 16 ser vi att högsta spritkonsumtionen sker i Japan, även där följt av Frankrike. Från stolpdiagrammen går det även att se att Tyskland är det enda landet som ligger över medel i samtliga alkoholtyper.
+
+Ett någorlunda gemensamt drag hos de extrema länderna i öl- och vinkonsumtion är att de tenderar att endast ligga högt i den ena av dessa. Detta kan klart ses i figur 17 där de som ligger allra högst i antingen öl- eller vinkonsumtion ligger bland de lägsta i den andra. 
 
 Bland övriga länder kan man istället se en ganska tydlig positiv korrelation där ökad ölkonsumtion medför ökad vinkonsumtion. Samband mellan öl-sprit samt vin-sprit är svårare att säga något om.
 
@@ -351,7 +360,7 @@ plot(sprit, vin, xlab = "Spritkonsumtion", ylab = "Vinkonsumtion")
 text(sprit, vin, land, cex = 0.5, pos = 1)
 ```
 
-Vi kan också kolla på den totala alkoholkonsumtionen i länderna. Detta kan illustreras på ett smidigt sätt med ett stolpdiagram, figur . Här ser vi att Norge kniper förstaplatsen om man får uttrycka det så, tätt följt av Sverige och Japan. 
+Vi kan också kolla på den totala alkoholkonsumtionen i länderna. Detta kan illustreras på ett smidigt sätt med ett stolpdiagram, figur 20. Här ser vi att Norge har lägsta totalkonsumtionen, tätt följt av Sverige och Japan. 
 
 Om man dock tänker sig att de negativa effekterna av alkohol är starkt korrelerad med procenten, vilket nog ändå får sägas rimligt blir detta dock en missvisande bild. T.ex. Japan hade ju den högsta spritkonsumtionen av samtliga länder, där procenten kan antas vara högre än för öl och vin men eftersom att sprit konsumeras i mindre mängder än öl och vin så ger det inte lika stor effekt på totala konsumtionen.
 
@@ -365,4 +374,6 @@ barplot(total_alk_kons, names.arg = land, xlab ="Länder",
         cex.names=.29)
 ```
 
-Några sammanfattande slutsatser som kan dras är att ölkonsumtionen är den som mest troligt är normalfördelad. Inget land är extremt för samtliga alkoholtyper åt något håll. Enbart Tyskland ligger över medel i samtliga, men är istället inte högst i någon. Figur *nr* visar ändå att Irland sticker ut lite när det gäller den totala konsumtionen och det finns en ganska stark negativ korrelation mellan öl- och vinkonsumtion när det gäller extrema länder. Att ett land ligger högt i öl- eller vinkonsumtion tyder alltså inte lika mycket på att de dricker stora mängder alkohol totalt som preferens för en viss alkoholtyp.
+\newpage
+
+Några sammanfattande slutsatser som kan dras är att ölkonsumtionen är den som mest troligt är normalfördelad. Inget land är extremt för samtliga alkoholtyper åt något håll. Enbart Tyskland ligger över medel i samtliga, men är istället inte högst i någon. Figur 20 visar ändå att Irland sticker ut lite när det gäller den totala konsumtionen och det finns en ganska stark negativ korrelation mellan öl- och vinkonsumtion när det gäller extrema länder. Att ett land ligger högt i öl- eller vinkonsumtion tyder alltså inte lika mycket på att de dricker stora mängder alkohol totalt som preferens för en viss alkoholtyp.
