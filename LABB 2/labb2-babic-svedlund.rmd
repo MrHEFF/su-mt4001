@@ -1,0 +1,36 @@
+---
+title: "Laboration 2: Statistisk hypotesprövning"
+author: "Sebastian Babic och Svedlund"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true           # Lägg till en innehållsförteckning
+    number_sections: true   # Numrera sektionerna
+fontsize: 12pt          # Ställ in textstorlek
+linestretch: 1.5        # Radavstånd
+geometry: a4paper       # A4-format
+---
+
+
+# Sammanfattning
+I detta inledande stycke ska du förklara vad labben går ut på, utan att gå in
+på detaljer.
+
+# Uppgift 1
+Varje sommar delades in i ett antal mindre tvådagarsperioder -> under varje sådan valdes en av dagarna slumpmässigt -> molnsådd på den dagen, inget på andra dagen
+
+Om dag 1 molnsåddes så varade arbetet kl 12-14. Mätte sedan mha 29 mätstationer. 
+
+## Uppgift 1.1: Teoretiska uppgifter
+Anledningen till att dela in sommaren i tvådagarsperioder är att säkerställa en rättvis jämförelse mellan dagar med molnsådd och utan molnsådd under liknande miljöförhållanden. 
+Genom att jämföra dagar som ligger nära varandra i tid minskar vi effekten av andra faktorer, såsom långsiktiga väderförändringar, som skulle kunna påverka nederbörden. 
+
+Om vi i stället singlade slant varje dag skulle fördelningen mellan dagar med och utan molnsådd kunna bli obalanserad på grund av slumpens variation, särskilt med 
+ett begränsat antal dagar (till exempel de 92 dagarna i en meteorologisk sommar). Detta skulle kunna resultera i en sned fördelning som inte är representativ
+för en jämn 50/50-fördelning, vilket gör det svårare att dra slutsatser från resultaten.
+
+
+# Uppgift 2
+Mer text. Använd underrubriker för delfrågor om du tycker det är motiverat.
+
+Et cetera om det är fler än 2 uppgifter.
