@@ -1,0 +1,32 @@
+---
+title: 'Laboration 2: Statistisk hypotesprövning'
+author: "Sebastian Babic"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: 
+    toc: true
+  html_document:
+    toc: true
+    df_print: paged
+fontsize: 10pt
+linestretch: 1.2
+geometry: a4paper
+---
+
+# Sammanfattning
+
+
+
+# Uppgift 1
+
+
+
+
+# Uppgift 2
+
+
+
+
+# Uppgift 3
+## Uppgift 3.1
+## Uppgift 3.2
