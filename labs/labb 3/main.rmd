@@ -12,7 +12,7 @@ fontsize: 10pt
 linestretch: 1.2
 geometry: a4paper
 ---
-
+\newpage
 # Sammanfattning
 För att göra linjär regression använder vi oss av funktionen `lm()` i R. Vi kan använda oss av `summary()` för att få en sammanfattning av modellen. 
 För att göra en hypotesprövning använder vi oss av `anova()` och `summary()`. Vi kan också använda oss av `confint()` för att få konfidensintervall 
@@ -26,7 +26,7 @@ För att få residueerna så kan vi använda oss av `residuals <- modell$residua
 tsm med `abline(a = 0, b= 0, lty = "dotted"`. 
 
 
-
+\newpage
 # Uppgift 1
 ```{r}
 df <- read.csv("temperatur.csv", header = TRUE)
@@ -75,7 +75,7 @@ värde. Residualerna verkar följa en normalfördelning förutom vid dem extrema
 linjärr regression och vi kan inte dra några slutsatser från denna modell. 
 
 
-
+\newpage
 > [!FIX]
 
 # Uppgift 2
@@ -155,7 +155,7 @@ if (p_value < 0.05) {
 ```
 
 
-
+\newpage
 
 # Uppgift 3
 ## Uppgift 3.1
