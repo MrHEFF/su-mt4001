@@ -38,10 +38,12 @@ age <- df$år
 
 plot(age, temperature, xlab = "År", ylab = "Temperatur", main = "Global medeltemperatur med anpassad linje")
 ```
-Vi ser att det absolut inte följer en linjär trend på grund av den exponentiala utseendet i datapunkterna. Vi ser även att datapunkterna har en stor
-spridning som tyder på att det inte är en linjär trend.
+Diagrammet visar en ökning i den globala medeltemperaturen över tid. Det ser ut att det finns en positiv trend, 
+men ett linjärt samband är inte direkt uppenbart eftersom temperaturen verkar accelerera mot slutet av perioden. 
+Detta kan tyda på att sambandet snarare är icke-linjärt (t.ex. exponentiellt).
 
 För att vi ska kunna göra en linjär regression så har vi kraven:
+
 1. **Linjäritet**: Sambandet mellan variablerna bör vara linjärt.
 
 2. Residualerna bör ha **konstant varians**.
@@ -52,7 +54,7 @@ För att vi ska kunna göra en linjär regression så har vi kraven:
 
 
 
-Vi genomför linjär regression för att se om det finns något samband mellan temperatur och år och sedan ser om det är rimligt med ett linjär regression
+Vi genomför analys för att se om det finns något samband mellan temperatur och år och sedan ser om det är rimligt med ett linjär regression
 genom att utföra residualanalys och analys via normalfördelningsplot.
 
 ```{r, fig.cap = "Linjär regression, residualanalys och QQ-plot analys för global temperaturdata"}
@@ -74,8 +76,12 @@ qqline(residual)
 par(old_par)
 ```
 
-Vi ser redan i första plotten till vänster att vi verkar inte följa en linjär trend. Vi ser även i residualplotten att det inte finns någon konstant värde pga. den förändringen i avståndet från 0-linjen som inte är konstant, mao. spridningen verkar förändras i olika delar av plotten. 
-Residualerna verkar följa en normalfördelning förutom vid dem extrema värden i svansarna. Vi har därmed inte uppfyllt kraven på 
+Vi ser redan i första plotten till vänster att vi verkar inte följa en linjär trend pga. den exponentialla ökningen mot slutet av plotten. Vi ser även i residualplotten att det inte finns någon konstant 
+värde pga. den förändringen i avståndet från 0-linjen som inte är konstant, mao. spridningen verkar förändras i olika delar av plotten och det verkar
+bildas en sorts "mönster" i spridningen, vi bildar nästan ett W. 
+Residualerna verkar följa en normalfördelning förutom vid dem extrema värden i svansarna. 
+
+Vi har därmed inte uppfyllt kraven på 
 linjär regression och vi kan inte dra några slutsatser från denna modell. 
 
 
@@ -96,25 +102,28 @@ modell3 <- lm(temperatur ~ år, data = df3)
 old_par <- par(mfrow = c(1, 2))
 # summering av modellerna
 residual1 <- modell1$residuals
-plot(df1$år, residual1, xlab = "År, 1880-1929", ylab ="")
+plot(df1$år, residual1, xlab = "År, 1880-1929", ylab ="Residualer", main = "Residualplot")
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual1)
 qqline(residual1)
 
 old_par <- par(mfrow = c(1, 2))
 residual2 <- modell2$residuals
-plot(df2$år, residual2)
+plot(df2$år, residual2, xlab = "År, 1930-1969", ylab ="Residualer", main = "Residualplot")
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual2)
 qqline(residual2)
 
 old_par <- par(mfrow = c(1, 2))
 residual3 <- modell3$residuals
-plot(df3$år, residual3)
+plot(df3$år, residual3, xlab = "År, 1979-2007", ylab ="Residualer", main = "Residualplot")
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual3)
 qqline(residual3)
 ```
+
+Vi verkar komma närmare att uppfylla kraven för linjär regression för varje årsperiod. Vi ser att residualerna verkar ha en konstant varians pga. den 
+slumpvisa spridningen och en någorlunda normalfördelning på QQ-plotten. 
 
 
 
@@ -146,7 +155,8 @@ cat("Model 2: Intercept =", intercept2, ", Lutningskoefficient =", slope2, "\n")
 cat("Model 3: Intercept =", intercept3, ", Lutningskoefficient =", slope3, "\n")
 ```
 
-Vi vill nu göra en hypotesprövning för att se om det finns en trend mot varmare klimat ($\beta > 0$) med en ensidig hypotesprövning för perioden 1970-2007, dvs modell 3. Vi använder oss av
+Vi vill nu göra en hypotesprövning för att se om det finns en trend mot varmare klimat ($\beta > 0$) med en ensidig hypotesprövning för 
+perioden 1970-2007 (modell 3) just pga. vi undersöker om det förekommer varmare klimat. Vi använder oss av
 ett t-test för $\beta$ för att se om det finns en signifikant trend. 
 
 Vi har alltså nollhypotesen $H_0: \beta \leq 0$ och alternativhypotesen $H_1: \beta > 0$. Vi använder oss av `summary()` för att få fram p-värdet.
@@ -163,5 +173,58 @@ if (p_value < 0.05) {
 \newpage
 
 # Uppgift 3
-## Uppgift 3.1
+## Upgift 3.1
+```{r}
+df_test <- read.csv("temperatur_test.csv", header = TRUE)
+```
+
+
+
+```{r}
+# Modell 1: Data från 1850–2007
+modell1 <- lm(temperatur ~ år, data = df[which(df$år <= 2007), ])
+
+# Modell 2: Data från 1970–2007
+modell2 <- lm(temperatur ~ år, data = df[which(df$år >= 1970 & df$år <= 2007), ])
+
+# Generera prediktioner för åren 2008–2022
+pred1 <- predict(modell1, newdata = df_test)
+pred2 <- predict(modell2, newdata = df_test)
+
+# Beräkna RMSE för åren 2008–2022
+rmse1 <- sqrt(mean((df_test$temperatur - pred1)^2))
+rmse2 <- sqrt(mean((df_test$temperatur - pred2)^2))
+```
+
+```{r}
+
+# Filtrera testdatan för perioden 1970–2007
+df_test_1970_2007 <- df_test[which(df_test$år >= 1970 & df_test$år <= 2007), ]
+
+# Generera prediktioner för perioden 1970–2007
+pred1_1970_2007 <- predict(modell1, newdata = df_test_1970_2007)
+pred2_1970_2007 <- predict(modell2, newdata = df_test_1970_2007)
+
+# Beräkna RMSE för perioden 1970–2007
+rmse1_1970_2007 <- sqrt(mean((df_test_1970_2007$temperatur - pred1_1970_2007)^2))
+rmse2_1970_2007 <- sqrt(mean((df_test_1970_2007$temperatur - pred2_1970_2007)^2))
+```
+
+```{r}
+# Sammanställ alla RMSE-värden i en tabell
+rmse_tabell <- data.frame(
+  Modell = c("1850–2007", "1970–2007", "1850–2007", "1970–2007"),
+  Testperiod = c("2008–2022", "2008–2022", "1970–2007", "1970–2007"),
+  RMSE = c(rmse1, rmse2, rmse1_1970_2007, rmse2_1970_2007)
+)
+
+# Skriv ut tabellen
+print(rmse_tabell)
+```
+
+
+
+
 ## Uppgift 3.2
+
+
