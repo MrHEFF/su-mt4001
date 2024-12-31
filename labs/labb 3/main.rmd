@@ -14,16 +14,14 @@ geometry: a4paper
 ---
 \newpage
 # Sammanfattning
-För att göra linjär regression använder vi oss av funktionen `lm()` i R. Vi kan använda oss av `summary()` för att få en sammanfattning av modellen. 
-För att göra en hypotesprövning använder vi oss av `anova()` och `summary()`. Vi kan också använda oss av `confint()` för att få konfidensintervall 
-för parametrarna.
+I denna laboration har vi utfört en statistisk analys av globala temperaturdata för att undersöka trender och prediktioner. 
+Vi har utfört en linjär regression för att undersöka sambandet mellan temperatur och årtalen.  
 
-I `lm()` så skriver vi in vår modell som `lm(y ~ 1 + x, data = data)`. Där `y` är den beroende variabeln och `x` är den oberoende variabeln.
 
-Använd `summary()` för att få fram värde. 
 
-För att få residueerna så kan vi använda oss av `residuals <- modell$residuals` och sedan plotta residuelaplotten med `plot(df$age, residuals)` ofta 
-tsm med `abline(a = 0, b= 0, lty = "dotted"`. 
+Modellen 1970–2007 är bättre lämpad för moderna prediktioner då den är anpassad för de senaste decenniernas klimatmönster.
+Däremot kan modellen 1850–2007 vara användbar för att analysera långsiktiga historiska trender, men dess noggrannhet minskar 
+för kortare och nyare perioder. 
 
 
 \newpage
@@ -172,59 +170,93 @@ if (p_value < 0.05) {
 
 \newpage
 
-# Uppgift 3
-## Upgift 3.1
-```{r}
+# Uppgift 3 - Prediktion av global temperatur
+## Upgift 3.1 - Modellval
+```{r, fig.cap ="RMSE för olika modeller och datamängder"}
+# Läs in testdatan
 df_test <- read.csv("temperatur_test.csv", header = TRUE)
-```
 
+# Modell 1: 1850–2007
+modell_1850_2007 <- lm(temperatur ~ år, data = subset(df, år <= 2007))
+pred_1850_2007 <- predict(modell_1850_2007, newdata = df_test)
+rmse_1850_2007 <- sqrt(mean((df_test$temperatur - pred_1850_2007)^2))
 
+# Modell 2: 1970–2007
+modell_1970_2007 <- lm(temperatur ~ år, data = subset(df, år >= 1970 & år <= 2007))
+pred_1970_2007 <- predict(modell_1970_2007, newdata = df_test)
+rmse_1970_2007 <- sqrt(mean((df_test$temperatur - pred_1970_2007)^2))
 
-```{r}
-# Modell 1: Data från 1850–2007
-modell1 <- lm(temperatur ~ år, data = df[which(df$år <= 2007), ])
+# RMSE för 1970–2007 (träningsdata)
+train_1970_2007 <- subset(df, år >= 1970 & år <= 2007)
+pred_train_1850_2007 <- predict(modell_1850_2007, newdata = train_1970_2007)
+rmse_train_1850_2007 <- sqrt(mean((train_1970_2007$temperatur - pred_train_1850_2007)^2))
 
-# Modell 2: Data från 1970–2007
-modell2 <- lm(temperatur ~ år, data = df[which(df$år >= 1970 & df$år <= 2007), ])
+pred_train_1970_2007 <- predict(modell_1970_2007, newdata = train_1970_2007)
+rmse_train_1970_2007 <- sqrt(mean((train_1970_2007$temperatur - pred_train_1970_2007)^2))
 
-# Generera prediktioner för åren 2008–2022
-pred1 <- predict(modell1, newdata = df_test)
-pred2 <- predict(modell2, newdata = df_test)
+library(knitr)
 
-# Beräkna RMSE för åren 2008–2022
-rmse1 <- sqrt(mean((df_test$temperatur - pred1)^2))
-rmse2 <- sqrt(mean((df_test$temperatur - pred2)^2))
-```
-
-```{r}
-
-# Filtrera testdatan för perioden 1970–2007
-df_test_1970_2007 <- df_test[which(df_test$år >= 1970 & df_test$år <= 2007), ]
-
-# Generera prediktioner för perioden 1970–2007
-pred1_1970_2007 <- predict(modell1, newdata = df_test_1970_2007)
-pred2_1970_2007 <- predict(modell2, newdata = df_test_1970_2007)
-
-# Beräkna RMSE för perioden 1970–2007
-rmse1_1970_2007 <- sqrt(mean((df_test_1970_2007$temperatur - pred1_1970_2007)^2))
-rmse2_1970_2007 <- sqrt(mean((df_test_1970_2007$temperatur - pred2_1970_2007)^2))
-```
-
-```{r}
-# Sammanställ alla RMSE-värden i en tabell
-rmse_tabell <- data.frame(
-  Modell = c("1850–2007", "1970–2007", "1850–2007", "1970–2007"),
-  Testperiod = c("2008–2022", "2008–2022", "1970–2007", "1970–2007"),
-  RMSE = c(rmse1, rmse2, rmse1_1970_2007, rmse2_1970_2007)
+# Skapa RMSE-tabell
+rmse_table <- data.frame(
+  Modell = c("1850–2007", "1970–2007"),
+  `2008–2022 (Testdata)` = c(round(rmse_1850_2007, 3), round(rmse_1970_2007, 3)),
+  `1970–2007 (Träningsdata)` = c(round(rmse_train_1850_2007, 3), round(rmse_train_1970_2007, 3))
 )
 
-# Skriv ut tabellen
-print(rmse_tabell)
+# Skriv ut tabellen med knitr::kable
+kable(
+  rmse_table, 
+  col.names = c("Modell", "Testdata (2008–2022)", "Träningsdata (1970–2007)"),
+  align = c('l', 'c', 'c'),
+  booktabs = TRUE
+)
 ```
+### 3.1 - Slutsats
+#### Modellen 1850–2007
 
+Modellen baserad på 1850-2007 har ett RMSE på 0.538 vilket är relativt högt. Det kan bero på att modellen inkluderar från en mycket lång period
+med stor variation i temperaturmönster som kan leda till ett mindre anpassad modell. Modellen baserad på 1970-2007 har ett lägre RMSE på 0.151 vilket 
+kan bero på att modellen är mer anpassad till den senaste perioden med mindre variation i temperaturmönster och är därför mer lämplig 
+att använda i att prediktera framtida temperaturer.
 
+Modellen baserad på 1970-2007 har ett lägre RMSE, 0.179 vilket är lägre än 0.538 såsom innan men fortfarande ganska högt jämfört med modellen 1970-2007
+med ett RMSE på 0.088 som är rimligt eftersom den modellen använder mer "modern" data och kan därför tillämpas bättre på framtida data.
 
+Skillnaden i felvärden beror på vilken data modellerna anpassats till. 
+Modellen 1850–2007 använder en mycket bred tidsperiod, vilket gör att den fångar både långsiktiga trender och 
+variationer som inte är relevanta för de senaste decennierna. Detta resulterar i högre fel när den utvärderas på moderna data (2008–2022).
+Modellen 1970–2007 fokuserar endast på moderna data och därmed bättre fångar temperaturökningen under denna period. Den är därför mer 
+exakt för att prediktera moderna temperaturer.
+
+Några fördelad med att använda en modell med mer data i modellanpassningen är att den kan fånga långsiktiga trender. Det kan till exempel vara cykliska
+mönster som inte är uppenbara i kortare tidsperioder. Nackdelen är att modellen kan bli överanpassad och få högre felvärden när den används på 
+modern data. Med andra ord så kan modellen vara felaktig på grund av förändrare miljöförhållande exempelvis.
+
+#### Modellen 1970–2007
+
+Modellen 1970–2007 har ett mycket lågt RMSE på 0.088, vilket är förväntat eftersom modellen är anpassad till exakt samma data. 
+Detta visar att den har en mycket god passform för perioden den är tränad på.
+Modellen 1850–2007 har ett något högre RMSE på 0.179, vilket beror på att den inte är lika specifikt anpassad till perioden 1970–2007.
+
+Resterande av slutsatsen är snarlik som för modellen 1850-2007 och därför hänvisas det till ovan. 
 
 ## Uppgift 3.2
+```{r}
+# Generera prediktionsintervall
+pred_intervals <- predict(modell_1970_2007, newdata = df_test, interval = "prediction")
+
+# Plotta
+plot(df_test$år, df_test$temperatur, pch = 16, col = "blue", xlab = "År", ylab = "Temperatur", 
+     main = "Prediktion och prediktionsintervall (2008–2022)")
+lines(df_test$år, pred_intervals[, "fit"], col = "red", lwd = 2)
+lines(df_test$år, pred_intervals[, "lwr"], col = "green", lty = 2)
+lines(df_test$år, pred_intervals[, "upr"], col = "green", lty = 2)
+
+# Lägg till legend
+legend("topleft", legend = c("Faktiska värden", "Prediktion", "Prediktionsintervall"), 
+       col = c("blue", "red", "green"), pch = c(16, NA, NA), lty = c(NA, 1, 2), bty = "n")
+
+```
+
 
 
