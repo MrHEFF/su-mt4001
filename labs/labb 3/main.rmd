@@ -242,7 +242,7 @@ modern data. Med andra ord så kan modellen vara felaktig på grund av förändr
 
 #### Modellen 1970–2007
 
-Modellen 1970–2007 har ett mycket lågt RMSE på 0.088, vilket är förväntat eftersom modellen är anpassad till exakt samma data. 
+Modellen baserad på 1970–2007 har ett mycket lågt RMSE på 0.088, vilket är förväntat eftersom modellen är anpassad till exakt samma data. 
 Detta visar att den har en mycket god passform för perioden den är tränad på.
 Modellen 1850–2007 har ett något högre RMSE på 0.179, vilket beror på att den inte är lika specifikt anpassad till perioden 1970–2007.
 
