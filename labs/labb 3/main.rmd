@@ -1,5 +1,5 @@
 ---
-title: 'Laboration 2: Statistisk hypotesprövning'
+title: 'Laboration 3: Statistisk prediktion av global temperatur'
 author: "Sebastian Babic"
 date: "`r Sys.Date()`"
 output:
@@ -8,24 +8,26 @@ output:
   html_document:
     toc: true
     df_print: paged
-fontsize: 10pt
+fontsize: 9pt
 linestretch: 1.2
 geometry: a4paper
 ---
 \newpage
 # Sammanfattning
-I denna laboration har vi utfört en statistisk analys av globala temperaturdata för att undersöka trender och prediktioner. 
-Vi har utfört en linjär regression för att undersöka sambandet mellan temperatur och årtalen.  
+I denna laboration har vi analyserat globala temperaturdata för att identifiera trender och göra prediktioner. 
+Vi har använt linjär regression för att undersöka sambandet mellan temperatur och årtal, och jämfört olika modeller för att 
+bedöma deras lämplighet för prediktioner. Resultaten visar att modeller baserade på nyare data ger mer exakta prediktioner för moderna perioder.
 
-
-
-Modellen 1970–2007 är bättre lämpad för moderna prediktioner då den är anpassad för de senaste decenniernas klimatmönster.
-Däremot kan modellen 1850–2007 vara användbar för att analysera långsiktiga historiska trender, men dess noggrannhet minskar 
-för kortare och nyare perioder. 
+Vi har kommit framm till att en modell baserad på data från 1970–2007 ger bättre prediktioner för perioden 2008–2022 jämfört med en modell 
+baserad på data från 1850–2007. 
+Detta beror på att den senare modellen inkluderar en längre tidsperiod med större variation i temperaturmönster, 
+vilket leder till högre felvärden när den används på modern data. 
+För att förbättra prediktionerna kan vi överväga att använda mer komplexa modeller som tar hänsyn till icke-linjära mönster och 
+fler förklarande variabler.
 
 
 \newpage
-# Uppgift 1
+# Uppgift 1 -  Jordens medeltemperatur 1850–2007
 ```{r}
 df <- read.csv("temperatur.csv", header = TRUE)
 ```
@@ -42,13 +44,13 @@ Detta kan tyda på att sambandet snarare är icke-linjärt (t.ex. exponentiellt)
 
 För att vi ska kunna göra en linjär regression så har vi kraven:
 
-1. **Linjäritet**: Sambandet mellan variablerna bör vara linjärt.
+> **Krav för linjär regression:**
+>
+> 1. **Linjäritet**: Sambandet mellan variablerna bör vara linjärt.
+> 2. Residualerna bör ha **konstant varians**.
+> 3. **Oberoende observationer**: Inga observationer bör påverka varandra.
+> 4. **Normalfördelade residualer**: Residualerna bör följa en normalfördelning.
 
-2. Residualerna bör ha **konstant varians**.
-
-3. **Oberoende observationer**: Inga observationer bör påverka varandra.
-
-4. **Normalfördelade residualer**: Residualerna bör följa en normalfördelning.
 
 
 
@@ -85,8 +87,8 @@ linjär regression och vi kan inte dra några slutsatser från denna modell.
 
 \newpage
 
-# Uppgift 2
-```{r}
+# Uppgift 2 - Jordens medeltemperatur under tre perioder
+```{r, fig.cap = "Residualplot och QQ-plot för olika årsperioder"}
 # delar in i tre årsperioder
 df1 <- subset(df, år >= 1880 & år <= 1929)
 df2 <- subset(df, år >= 1930 & år <= 1969)
@@ -240,8 +242,8 @@ Modellen 1850–2007 har ett något högre RMSE på 0.179, vilket beror på att 
 
 Resterande av slutsatsen är snarlik som för modellen 1850-2007 och därför hänvisas det till ovan. 
 
-## Uppgift 3.2
-```{r}
+## Uppgift 3.2 - Prediktion och prediktionsintervall
+```{r, fig.cap = "Prediktion och prediktionsintervall för global temperatur (2008–2022)"}
 # Generera prediktionsintervall
 pred_intervals <- predict(modell_1970_2007, newdata = df_test, interval = "prediction")
 
@@ -259,4 +261,25 @@ legend("topleft", legend = c("Faktiska värden", "Prediktion", "Prediktionsinter
 ```
 
 
+De faktiska temperaturvärdena verkar avvika från de predikterade värdena (röda linjen) för flera år, 
+särskilt mot slutet av perioden (2008–2022). Detta antyder att en linjär modell inte fångar de icke-linjära mönstren i data tillräckligt väl.
+Prediktionsintervallet (gröna streckade linjer) är brett, vilket visar att osäkerheten i förutsägelserna är stor. Detta minskar 
+modellens användbarhet för exakta prediktioner.
 
+För att eventuellt förbättra modellen kan vi dela upp datan i mindre tidsperioder och använda olika modeller för varje period för att bättre 
+spegla förändringar i klimattrender över tid. Vi skulle även kunna införa flera förklarande variabler som skulle ge en mer komplex modell som
+bättre kan fånga upp de icke-linjära mönstren i data. 
+
+Några problem med att prediktera framtida temperatur på detta sätt kan vara:
+
+1. Överförenkling, genom att endast använda år som prediktor ignoreras viktiga faktorer som påverkar temperaturer, 
+exempelvis mänskliga utsläpp och naturliga variationer.
+
+2. Osäkerhet i framtida händelser, framtida klimatpolitik, teknologiska framsteg 
+och naturfenomen som vulkanutbrott är oförutsägbara och kan påverka temperaturen dramatiskt, något som Nassim Nicholas Taleb i sin bok "The Black Swan"
+tar upp. 
+
+3. Datakvalitet, i och med att vi har mät data från och med 1870 så kan det ha uppståt mätfel pga felaktiga mätinstrument. 
+
+4. Antagandet om konstant trend, linjär regression förutsätter en konstant ökning eller minskning över tid, vilket 
+inte stämmer med de observerade icke-linjära mönstren i temperaturen.
