@@ -43,9 +43,13 @@ spridning som tyder på att det inte är en linjär trend.
 
 För att vi ska kunna göra en linjär regression så har vi kraven:
 1. **Linjäritet**: Sambandet mellan variablerna bör vara linjärt.
+
 2. Residualerna bör ha **konstant varians**.
+
 3. **Oberoende observationer**: Inga observationer bör påverka varandra.
+
 4. **Normalfördelade residualer**: Residualerna bör följa en normalfördelning.
+
 
 
 Vi genomför linjär regression för att se om det finns något samband mellan temperatur och år och sedan ser om det är rimligt med ett linjär regression
@@ -70,13 +74,12 @@ qqline(residual)
 par(old_par)
 ```
 
-Vi ser redan i första plotten till vänster att vi verkar inte följa en linjär trend. Vi ser även i residualplotten att det inte finns någon konstant
-värde. Residualerna verkar följa en normalfördelning förutom vid dem extrema värden i svansarna. Vi har därmed inte uppfyllt kraven på 
-linjärr regression och vi kan inte dra några slutsatser från denna modell. 
+Vi ser redan i första plotten till vänster att vi verkar inte följa en linjär trend. Vi ser även i residualplotten att det inte finns någon konstant värde pga. den förändringen i avståndet från 0-linjen som inte är konstant, mao. spridningen verkar förändras i olika delar av plotten. 
+Residualerna verkar följa en normalfördelning förutom vid dem extrema värden i svansarna. Vi har därmed inte uppfyllt kraven på 
+linjär regression och vi kan inte dra några slutsatser från denna modell. 
 
 
 \newpage
-> [!FIX]
 
 # Uppgift 2
 ```{r}
@@ -90,27 +93,30 @@ modell1 <- lm(temperatur ~ år, data = df1)
 modell2 <- lm(temperatur ~ år, data = df2)
 modell3 <- lm(temperatur ~ år, data = df3)
 
-old_par <- par(mfrow = c(3, 3))
+old_par <- par(mfrow = c(1, 2))
 # summering av modellerna
 residual1 <- modell1$residuals
-plot(df1$år, residual1)
+plot(df1$år, residual1, xlab = "År, 1880-1929", ylab ="")
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual1)
 qqline(residual1)
 
+old_par <- par(mfrow = c(1, 2))
 residual2 <- modell2$residuals
 plot(df2$år, residual2)
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual2)
 qqline(residual2)
 
+old_par <- par(mfrow = c(1, 2))
 residual3 <- modell3$residuals
 plot(df3$år, residual3)
 abline(a = 0, b = 0, lty = "dotted")
 qqnorm(residual3)
 qqline(residual3)
-par(old_par)
 ```
+
+
 
 Där vi använder `summary` för att få fram interceptet och lutningskoefficienten för varje modell.
 
@@ -153,7 +159,6 @@ if (p_value < 0.05) {
   print("Vi kan inte förkasta nollhypotesen. Direktören kan ha rätt.")
 }
 ```
-
 
 \newpage
 
