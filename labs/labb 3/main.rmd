@@ -129,17 +129,13 @@ slumpvisa spridningen och en någorlunda normalfördelning på QQ-plotten.
 
 Där vi använder `summary` för att få fram interceptet och lutningskoefficienten för varje modell.
 
-```{r}
-summary1 <- summary(modell1)
-summary2 <- summary(modell2)
-summary3 <- summary(modell3)
-
-# extrahera alpha
+```{r, fig.cap = "Sammanställning av intercept och lutningskoefficient för tre modeller."}
+# Extraherar koefficienter
 coef1 <- coef(modell1)
 coef2 <- coef(modell2)
 coef3 <- coef(modell3)
 
-# extrahera beta
+# Extraherar intercept och lutningskoefficienter
 intercept1 <- coef1[1]
 slope1 <- coef1[2]
 
@@ -149,10 +145,20 @@ slope2 <- coef2[2]
 intercept3 <- coef3[1]
 slope3 <- coef3[2]
 
+# Skapar en data.frame för tabellen
+table_data <- data.frame(
+  Modell = c("Modell 1 (1880–1929)", "Modell 2 (1930–1969)", "Modell 3 (1970–2007)"),
+  Intercept = c(intercept1, intercept2, intercept3),
+  Lutningskoefficient = c(slope1, slope2, slope3)
+)
 
-cat("Model 1: Intercept =", intercept1, ", Lutningskoefficient =", slope1, "\n")
-cat("Model 2: Intercept =", intercept2, ", Lutningskoefficient =", slope2, "\n")
-cat("Model 3: Intercept =", intercept3, ", Lutningskoefficient =", slope3, "\n")
+# Visar tabellen med knitr::kable
+knitr::kable(
+  table_data, 
+  caption = "Sammanställning av intercept och lutningskoefficient för tre modeller.",
+  col.names = c("Modell", "Intercept", "Lutningskoefficient"),
+  digits = 5  # Begränsar decimaler till 3
+)
 ```
 
 Vi vill nu göra en hypotesprövning för att se om det finns en trend mot varmare klimat ($\beta > 0$) med en ensidig hypotesprövning för 

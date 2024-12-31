@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.8)  31 DEC 2024 17:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.8)  31 DEC 2024 18:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -556,10 +556,10 @@ Package pdftex.def Info: main_files/figure-latex/unnamed-chunk-4-3.pdf  used on 
 
 [9 <./main_files/figure-latex/unnamed-chunk-4-3.pdf>]
 
-[10{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+[10{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
 
-[11]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 436.
+[11{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 438.
 (c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -567,10 +567,10 @@ File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 [12{c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
 
 [13]
-<main_files/figure-latex/unnamed-chunk-8-1.pdf, id=132, 469.755pt x 325.215pt>
+<main_files/figure-latex/unnamed-chunk-8-1.pdf, id=133, 469.755pt x 325.215pt>
 File: main_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
 <use main_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: main_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 530.
+Package pdftex.def Info: main_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 532.
 (pdftex.def)             Requested size: 418.25267pt x 289.55952pt.
 
 
@@ -583,18 +583,18 @@ L3 programming layer <2024-11-02>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12124 strings out of 475290
- 189870 string characters out of 5767281
- 585831 words of memory out of 5000000
- 34762 multiletter control sequences out of 15000+600000
+ 12126 strings out of 475290
+ 189882 string characters out of 5767281
+ 585881 words of memory out of 5000000
+ 34763 multiletter control sequences out of 15000+600000
  605378 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  89i,6n,93p,702b,477s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/sebas/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on main.pdf (15 pages, 347295 bytes).
+Output written on main.pdf (15 pages, 348481 bytes).
 PDF statistics:
- 239 PDF objects out of 1000 (max. 8388607)
- 184 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
+ 240 PDF objects out of 1000 (max. 8388607)
+ 185 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
  79 words of extra memory for PDF output out of 10000 (max. 10000000)
 
