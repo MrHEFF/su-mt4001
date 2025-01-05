@@ -1,6 +1,6 @@
 ---
 title: 'Laboration 3: Statistisk prediktion av global temperatur'
-author: "Sebastian Babic"
+author: "Sebastijan Babic"
 date: "`r Sys.Date()`"
 output:
   pdf_document: 
@@ -168,7 +168,7 @@ ett t-test för $\beta$ för att se om det finns en signifikant trend.
 Vi har alltså nollhypotesen $H_0: \beta \leq 0$ och alternativhypotesen $H_1: \beta > 0$. Vi använder oss av `summary()` för att få fram p-värdet.
 
 ```{r}
-p_value <- summary(modell3)$coefficients[2, 4] / 2
+p_value <- summary(modell3)$coefficients[2, 4] / 2 # dela på två eftersom summary ger tvåsidig test och vi vill ha ensidig
 if (p_value < 0.05) {
   print("Vi förkastar nollhypotesen. Direktören har fel.")
 } else {
@@ -181,7 +181,6 @@ if (p_value < 0.05) {
 # Uppgift 3 - Prediktion av global temperatur
 ## Upgift 3.1 - Modellval
 ```{r, fig.cap ="RMSE för olika modeller och datamängder"}
-# Läs in testdatan
 df_test <- read.csv("temperatur_test.csv", header = TRUE)
 
 # Modell 1: 1850–2007
@@ -204,14 +203,14 @@ rmse_train_1970_2007 <- sqrt(mean((train_1970_2007$temperatur - pred_train_1970_
 
 library(knitr)
 
-# Skapa RMSE-tabell
+# skapa RMSE-tabell
 rmse_table <- data.frame(
   Modell = c("1850–2007", "1970–2007"),
   `2008–2022 (Testdata)` = c(round(rmse_1850_2007, 3), round(rmse_1970_2007, 3)),
   `1970–2007 (Träningsdata)` = c(round(rmse_train_1850_2007, 3), round(rmse_train_1970_2007, 3))
 )
 
-# Skriv ut tabellen med knitr::kable
+# skriv ut tabellen med knitr::kable
 kable(
   rmse_table, 
   col.names = c("Modell", "Testdata (2008–2022)", "Träningsdata (1970–2007)"),
@@ -250,17 +249,15 @@ Resterande av slutsatsen är snarlik som för modellen 1850-2007 och därför h�
 
 ## Uppgift 3.2 - Prediktion och prediktionsintervall
 ```{r, fig.cap = "Prediktion och prediktionsintervall för global temperatur (2008–2022)"}
-# Generera prediktionsintervall
+# prediktionsintervallen
 pred_intervals <- predict(modell_1970_2007, newdata = df_test, interval = "prediction")
 
-# Plotta
 plot(df_test$år, df_test$temperatur, pch = 16, col = "blue", xlab = "År", ylab = "Temperatur", 
      main = "Prediktion och prediktionsintervall (2008–2022)")
 lines(df_test$år, pred_intervals[, "fit"], col = "red", lwd = 2)
 lines(df_test$år, pred_intervals[, "lwr"], col = "green", lty = 2)
 lines(df_test$år, pred_intervals[, "upr"], col = "green", lty = 2)
 
-# Lägg till legend
 legend("topleft", legend = c("Faktiska värden", "Prediktion", "Prediktionsintervall"), 
        col = c("blue", "red", "green"), pch = c(16, NA, NA), lty = c(NA, 1, 2), bty = "n")
 
